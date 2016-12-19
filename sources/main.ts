@@ -8,7 +8,7 @@ import { GMailComponent } from './components/g-mail/g-mail.component'
 import { GmailService } from './components/g-mail/g-mail.service'
 
 angular
-    .module('gwapit', [
+    .module('angular-inbox', [
         ngMaterial,
     ])
     .controller('MainController', MainController)

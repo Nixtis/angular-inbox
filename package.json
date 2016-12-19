@@ -1,5 +1,5 @@
 {
-  "name": "gwapit",
+  "name": "angular-inbox",
   "version": "1.0.0",
   "scripts": {
     "start": "gulp local",
