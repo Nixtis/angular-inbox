@@ -2,3 +2,4 @@
 /local/
 /prod/
 /**/.DS_Store
+/npm-debug.log
