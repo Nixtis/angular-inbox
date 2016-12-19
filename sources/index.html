@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html ng-app="gwapit">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1,width=device-width" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+
+        <base href="/" />
+
+        <link rel="stylesheet" href="angular-material.css">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <title>Angular Inbox</title>
+    </head>
+    <body ng-controller="MainController as main" ng-cloak>
+        <md-toolbar class="md-hue-2">
+            <div class="md-toolbar-tools">
+                <md-button class="md-icon-button" aria-label="Settings" ng-click="main.toggleSideNav()" ng-disabled="!main.isLogged">
+                    <i class="material-icons">menu</i>
+                </md-button>
+
+                <h2 flex md-truncate>Angular Inbox</h2>
+            </div>
+        </md-toolbar>
+
+        <md-sidenav cclass="md-sidenav-left md-whiteframe-4dp" md-component-id="sidenav-left" md-whiteframe="4">
+            <md-toolbar class="md-theme-indigo">
+                <h1 class="md-toolbar-tools">Menu</h1>
+            </md-toolbar>
+
+            <md-list layout-padding>
+                <md-list-item ng-if="main.isLogged" ng-click="main.logout()">
+                    Logout
+                </md-list-item>
+            </md-list>
+        </md-sidenav>
+
+        <g-login ng-if="!main.isLogged" on-log-status-change="main.setLogStatus($event)"></g-login>
+        <g-mail ng-if="main.isLogged"></g-mail>
+
+        <script src="bundle.js"></script>
+    </body>
+</html>
