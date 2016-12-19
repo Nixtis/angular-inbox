@@ -14,7 +14,7 @@ let gulp = require('gulp'),
     sourcemaps = require('gulp-sourcemaps')
 
 //Config
-let environment = 'local', //(local|prod)
+let environment = 'local', //(local|docker|prod)
 	host = 'localhost',
 	port = '8888'
 
@@ -23,6 +23,7 @@ gulp.task('connectTask', connectTask)
 gulp.task('openTask', openTask)
 gulp.task('cleanEnvironment', cleanEnvironment)
 gulp.task('local', localTask)
+gulp.task('docker', dockerTask)
 gulp.task('prod', prodTask)
 gulp.task('tsTask', tsTask)
 gulp.task('moveFiles', moveFiles)
@@ -37,7 +38,7 @@ function connectTask () {
 		host: host,
 		port: port,
 		root: environment,
-		livereload: true,
+		livereload: environment === 'local',
         middleware: function () {
             return [ history() ]
         }
@@ -141,7 +142,16 @@ function localTask() {
     watchTask()
 }
 
+/**
+ * Set Docker environment
+ */
+function dockerTask() {
+    environment = 'docker'
 
+    runAllTasks()
+    connectTask()
+    watchTask()
+}
 
 /**
  * Set Prod environment
