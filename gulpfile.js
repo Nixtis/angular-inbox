@@ -8,8 +8,10 @@ let gulp = require('gulp'),
     clean = require('gulp-clean'),
     browserify = require('browserify'),
     source = require('vinyl-source-stream'),
+    buffer = require('vinyl-buffer'),
     tsify = require('tsify'),
-    plumber = require('gulp-plumber')
+    uglify = require('gulp-uglify'),
+    sourcemaps = require('gulp-sourcemaps')
 
 //Config
 let environment = 'local', //(local|prod)
@@ -21,6 +23,7 @@ gulp.task('connectTask', connectTask)
 gulp.task('openTask', openTask)
 gulp.task('cleanEnvironment', cleanEnvironment)
 gulp.task('local', localTask)
+gulp.task('prod', prodTask)
 gulp.task('tsTask', tsTask)
 gulp.task('moveFiles', moveFiles)
 
@@ -77,7 +80,7 @@ function cleanEnvironment () {
  * Typescript
  */
 function tsTask () {
-    return browserify({
+    let b = browserify({
         basedir: '.',
         debug: environment === 'local',
         entries: [ 'sources/main.ts' ],
@@ -86,9 +89,22 @@ function tsTask () {
     })
     .plugin(tsify)
     .bundle()
+    .on('error', function (error) { console.error(error.toString()) })
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest(environment))
-    .pipe(connect.reload())
+    .pipe(buffer())
+
+    if (environment === 'prod') {
+        return b
+            .pipe(uglify({ mangle: false }))
+            .pipe(gulp.dest(environment))
+    } else {
+        return b
+            .pipe(sourcemaps.init({ loadMaps: true }))
+            .pipe(uglify({ mangle: false }))
+            .pipe(sourcemaps.write('./'))
+            .pipe(gulp.dest(environment))
+            .pipe(connect.reload())
+    }
 }
 
 /**

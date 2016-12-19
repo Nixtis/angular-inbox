@@ -20,12 +20,14 @@
     "gulp-connect": "^5.0.0",
     "gulp-open": "^2.0.0",
     "gulp-plumber": "^1.1.0",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-uglify": "^2.0.0",
     "gulp-watch": "^4.3.11",
-    "js-base64": "^2.1.9",
     "run-sequence": "^1.2.2",
     "tsify": "^2.0.3",
     "tslint": "^4.0.2",
     "typescript": "^2.1.4",
+    "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }
